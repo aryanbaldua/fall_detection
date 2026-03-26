@@ -6,15 +6,15 @@ This repo documents my learning journey from zero computer vision knowledge to a
 
 ## Roadmap
 
-| Phase | Topic | Description |
-|---|---|---|
-| 1 | Images & Video Basics | Learn how images and video work as numpy arrays in OpenCV |
-| 2 | Person Detection | Use YOLOv8 to draw bounding boxes around people with confidence scores |
-| 3 | Pose Estimation | Use MediaPipe to detect 33 body keypoints and draw a skeleton |
-| 4 | Feature Extraction | Compute body angle, hip height, and velocity from raw keypoints |
-| 5 | Rule-Based Detector | Detect falls using simple if/else logic on extracted features |
-| 6 | LSTM Classifier | Train a neural network to classify falls from sequences of frames |
-| 7 | Real-Time Pipeline | Connect everything into a single end-to-end live detection system |
+| Phase | Topic | File | Description |
+|---|---|---|---|
+| 1 | Images & Video Basics | `pose_detection.py` | Learn how images and video work as numpy arrays in OpenCV |
+| 2 | Person Detection | `person_detection.py` | Use YOLOv8 to draw bounding boxes around people with confidence scores |
+| 3 | Pose Estimation | `pose_estimation.py` | Use MediaPipe to detect 33 body keypoints and draw a skeleton |
+| 4 | Feature Extraction | `feature_extraction.py` | Compute body angle, hip height, and velocity from raw keypoints |
+| 5 | Rule-Based Detector | `rule_based_detector.py` | Detect falls using simple if/else logic on extracted features |
+| 6 | LSTM Classifier | `lstm_classifier.py` | Train a neural network to classify falls from sequences of frames |
+| 7 | Real-Time Pipeline | `pipeline.py` | Connect everything into a single end-to-end live detection system |
 
 ## Setup
 
