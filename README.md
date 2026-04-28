@@ -1,40 +1,34 @@
 # Fall Detection
 
-A hands-on computer vision learning project building toward a real-time fall detection system. Starting from zero knowledge of computer vision, each phase introduces one new concept and builds directly on the last.
+A computer vision project that detects when a person falls in a video. The pipeline runs MediaPipe pose estimation on each frame, derives motion features (body angle, hip height, hip velocity), and classifies the result.
 
-The goal is a pipeline that takes webcam or video input, detects a person, estimates their pose, extracts motion features, and triggers an alert when a fall is detected.
+## Approaches
 
-## Roadmap
-
-| Phase | Topic | File | Description |
+| Approach | Status | Notebook | Idea |
 |---|---|---|---|
-| 1 | Images & Video Basics | `pose_detection.py` | Learn how images and video work as numpy arrays in OpenCV |
-| 2 | Person Detection | `person_detection.py` | Use YOLOv8 to draw bounding boxes around people with confidence scores |
-| 3 | Pose Estimation | `pose_estimation.py` | Use MediaPipe to detect 33 body keypoints and draw a skeleton |
-| 4 | Feature Extraction | `feature_extraction.py` | Compute body angle, hip height, and velocity from raw keypoints |
-| 5 | Rule-Based Detector | `rule_based_detector.py` | Detect falls using simple if/else logic on extracted features |
-| 6 | LSTM Classifier | `lstm_classifier.py` | Train a neural network to classify falls from sequences of frames |
-| 7 | Real-Time Pipeline | `pipeline.py` | Connect everything into a single end-to-end live detection system |
+| Rule-based | Done | [`notebooks/rule_based.ipynb`](notebooks/rule_based.ipynb) | Trigger an alert when body angle and hip height cross hand-tuned thresholds for several consecutive frames |
+| LSTM | Coming | `notebooks/lstm.ipynb` | Train a sequence model on a sliding window of features so the classifier can learn what a fall *looks like* over time |
 
-## Dataset
+Both approaches share the same upstream feature extraction. The rule-based notebook is evaluated on Le2i; an additional held-out evaluation on URFD lives in [`notebooks/evaluation_set.ipynb`](notebooks/evaluation_set.ipynb).
 
-The rule-based detector was first tested against the [UR Fall Detection Dataset (URFD)](https://fenix.ur.edu.pl/mkepski/ds/uf.html). Download and place in `data/URFD/`:
-
-```bash
-bash scripts/download_urfd.sh
-```
-2
 ## Setup
 
 ```bash
 pip install opencv-python ultralytics mediapipe
 ```
 
-Download model files (not included in repo):
+Model weights are gitignored — download them once:
 ```bash
-# YOLOv8
 python3 -c "from ultralytics import YOLO; YOLO('yolov8n.pt')"
-
-# MediaPipe Pose Landmarker
 curl -L "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/latest/pose_landmarker_full.task" -o models/pose_landmarker_full.task
 ```
+
+## Datasets
+
+Raw videos are gitignored; only the extracted feature CSVs are committed.
+
+- **Le2i** — primary training/eval set. Place raw videos under `data/Le2i/`.
+- **URFD** — held-out evaluation set. [Project page](https://fenix.ur.edu.pl/mkepski/ds/uf.html). Download with:
+  ```bash
+  bash scripts/download_urfd.sh
+  ```
