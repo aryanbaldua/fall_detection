@@ -23,7 +23,7 @@ The rule-based detector was first tested against the [UR Fall Detection Dataset 
 ```bash
 bash scripts/download_urfd.sh
 ```
-
+2
 ## Setup
 
 ```bash

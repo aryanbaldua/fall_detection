@@ -133,7 +133,36 @@ def compute_hip_height(landmarks):
 
 
 # ─────────────────────────────────────────────
-# FEATURE 3: Velocity
+# FEATURE 3: Bounding Box Aspect Ratio
+# ─────────────────────────────────────────────
+def compute_bbox_ratio(landmarks):
+    """
+    Returns the width/height ratio of the bounding box around all visible landmarks.
+
+    When standing:  body is tall and narrow → ratio < 1  (e.g. 0.3–0.6)
+    When fallen:    body is wide and short  → ratio > 1  (e.g. 1.2–3.0)
+
+    This is one of the strongest fall signals — the body literally inverts
+    its proportions when it goes from vertical to horizontal.
+    """
+    # Collect x and y of every landmark that MediaPipe is confident about
+    xs = [lm.x for lm in landmarks if lm.visibility >= VISIBILITY_THRESHOLD]
+    ys = [lm.y for lm in landmarks if lm.visibility >= VISIBILITY_THRESHOLD]
+
+    if len(xs) < 2:
+        return None  # not enough visible landmarks to form a box
+
+    bbox_width  = max(xs) - min(xs)
+    bbox_height = max(ys) - min(ys)
+
+    if bbox_height == 0:
+        return None
+
+    return bbox_width / bbox_height
+
+
+# ─────────────────────────────────────────────
+# FEATURE 4: Velocity
 # ─────────────────────────────────────────────
 def compute_velocity(current_hip_y, previous_hip_y):
     """

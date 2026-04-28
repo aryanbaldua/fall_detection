@@ -6,3 +6,13 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Raw datasets — too large, downloaded separately
+data/Le2i/
+data/URFD/
+
+# Demo recordings
+*.mov
